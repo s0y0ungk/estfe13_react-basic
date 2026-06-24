@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-function UpdateArticle({ title, desc, onSubmit }) {
+function UpdateArticle({ title, desc, onSubmit, difficulty }) {
   console.log("UpdateArticle render");
   const [content, setContent] = useState({
     title: title,
     desc: desc,
+    difficulty: difficulty,
   });
   // const [newTitle, setNewTitle] = useState(title);
   // const [newDesc, setNewDesc] = useState(desc);
@@ -33,7 +34,7 @@ function UpdateArticle({ title, desc, onSubmit }) {
         action=""
         onSubmit={e => {
           e.preventDefault();
-          onSubmit(content.title, content.desc);
+          onSubmit(content.title, content.desc, content.difficulty);
         }}
       >
         <div>
