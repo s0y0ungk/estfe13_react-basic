@@ -2,9 +2,11 @@ import "./App.css";
 import Myheader from "./components/Myheader";
 import Nav from "./components/Nav";
 import MyArticle from "./components/MyArticle";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Controls from "./components/controls";
 import CreateArticle from "./components/createArticle";
+import UpdateArticle from "./components/UpdateArticle";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   console.log("App render");
@@ -31,27 +33,70 @@ function App() {
   let _desc = null;
   let _article = null;
 
+  const selectedArticle = useMemo(() => content.find(item => item.id === id), [content, id]);
+
+  const handleDelete = () => {
+    if (window.confirm("정말 삭제할까요")) {
+      setContent(prev => prev.filter(item => item.id !== id));
+      setMode("welcome");
+    } else {
+      setMode("welcome");
+    }
+  };
+
   if (mode === "welcome") {
     _title = welcome.title;
     _desc = welcome.desc;
     _article = <MyArticle title={_title} desc={_desc} />;
   } else if (mode === "read") {
-    const selected = content.find(c => c.id === id);
-    console.log(selected);
-    if (selected) {
-      _title = selected.title;
-      _desc = selected.desc;
+    if (selectedArticle) {
+      _title = selectedArticle.title;
+      _desc = selectedArticle.desc;
     }
-    _article = <MyArticle title={_title} desc={_desc} />;
+    _article = (
+      <MyArticle
+        title={_title}
+        desc={_desc}
+        onChangeMode={() => {
+          setMode("update");
+        }}
+        onDelete={handleDelete}
+      />
+    );
   } else if (mode === "create") {
     _article = (
       <CreateArticle
         onSubmit={(_title, _desc) => {
-          const newId = maxId + 1;
+          const newId = uuidv4();
 
-          let _contents = content({ id: newId, title: _title, desc: _desc });
+          let _contents = content.concat({ id: newId, title: _title, desc: _desc });
           setContent(_contents);
           setMaxid(newId);
+          setId(newId);
+          setMode("read");
+        }}
+      />
+    );
+  } else if (mode === "update") {
+    if (!selectedArticle) return null;
+
+    _article = (
+      <UpdateArticle
+        title={selectedArticle.title}
+        desc={selectedArticle.desc}
+        onSubmit={(_title, _desc) => {
+          setContent(prev =>
+            prev.map(p =>
+              p.id === id
+                ? {
+                    ...p,
+                    title: _title,
+                    desc: _desc,
+                  }
+                : p,
+            ),
+          );
+          setMode("read");
         }}
       />
     );

@@ -1,4 +1,4 @@
-function MyArticle({ title, desc }) {
+function MyArticle({ title, desc, onChangeMode, onDelete }) {
   console.log("MyArticle render");
   return (
     <section>
@@ -6,8 +6,8 @@ function MyArticle({ title, desc }) {
         <h2>{title}</h2>
         <p>{desc}</p>
       </article>
-      <button>수정</button>
-      <button>삭제</button>
+      {onChangeMode && <button onClick={onChangeMode}>수정</button>}
+      {onDelete && <button onClick={onDelete}>삭제</button>}
     </section>
   );
 }
