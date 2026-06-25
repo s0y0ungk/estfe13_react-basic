@@ -36,6 +36,7 @@ function App() {
       level: 3,
     },
   ]);
+  // const [maxId, setMaxid] = useState(3);
 
   const welcome = { title: "welcome", desc: "Welcome to react" };
 
@@ -62,6 +63,7 @@ function App() {
       level: _level,
     });
     setContent(_contents);
+    // setMaxid(newId);
     setId(newId);
     setMode("read");
   };
@@ -130,7 +132,7 @@ function App() {
           setMode("welcome");
         }}
       />
-      <Nav data={content} onChangeMode={handleChangeMode} />
+      <Nav data={content} id={id} onChangeMode={handleChangeMode} />
       {renderArticle()}
       <hr />
       <Controls
