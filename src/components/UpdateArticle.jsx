@@ -51,6 +51,16 @@ function UpdateArticle({ title, desc, onSubmit, difficulty }) {
           <label htmlFor="desc">desc</label>
           <textarea name="desc" id="desc" value={content.desc} onChange={handleChange}></textarea>
         </div>
+        <div>
+          <label htmlFor="difficulty">difficulty</label>
+          <input
+            type="nuber"
+            name="difficulty"
+            id="difficulty"
+            value={content.difficulty}
+            onChange={handleChange}
+          />
+        </div>
         <button>Submit</button>
       </form>
     </>

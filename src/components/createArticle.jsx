@@ -20,11 +20,7 @@ function CreateArticle({ onSubmit }) {
         </div>
         <div>
           <label htmlFor="difficulty">difficulty</label>
-          <select name="difficulty" id="difficulty">
-            <option value="난이도1">난이도 1</option>
-            <option value="난이도2">난이도 2</option>
-            <option value="난이도3">난이도3 </option>
-          </select>
+          <input type="nuber" name="difficulty" id="difficulty" />
         </div>
         <button>Submit</button>
       </form>
