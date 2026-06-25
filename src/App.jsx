@@ -21,19 +21,19 @@ function App() {
       id: "1",
       title: "UI/UX 개발",
       desc: "사용자 경험을 고려한 직관적이고 반응성 높은 화면 구현",
-      difficulty: 1,
+      level: 1,
     },
     {
       id: "2",
       title: "재사용이 가능한 UI 개발",
       desc: "컴포넌트 기반으로 동일한 UI를 효율적으로 재사용 가능",
-      difficulty: 2,
+      level: 2,
     },
     {
       id: "3",
       title: "애니메이션 구현",
       desc: "상태 변화에 따른 자연스럽고 동적인 화면 효과 구현",
-      difficulty: 3,
+      level: 3,
     },
   ]);
   // const [maxId, setMaxid] = useState(3);
@@ -42,8 +42,8 @@ function App() {
 
   let _title = null;
   let _desc = null;
+  let _level = null;
   let _article = null;
-  let _difficulty = null;
 
   const selectedArticle = useMemo(() => content.find(item => item.id === id), [content, id]);
 
@@ -64,13 +64,13 @@ function App() {
     if (selectedArticle) {
       _title = selectedArticle.title;
       _desc = selectedArticle.desc;
-      _difficulty = selectedArticle.difficulty;
+      _level = selectedArticle.level;
     }
     _article = (
       <MyArticle
         title={_title}
         desc={_desc}
-        difficulty={_difficulty}
+        level={_level}
         onChangeMode={() => {
           setMode("update");
         }}
@@ -80,15 +80,10 @@ function App() {
   } else if (mode === "create") {
     _article = (
       <CreateArticle
-        onSubmit={(_title, _desc, _difficulty) => {
+        onSubmit={(_title, _desc, _level) => {
           const newId = uuidv4();
 
-          let _contents = content.concat({
-            id: newId,
-            title: _title,
-            desc: _desc,
-            difficulty: _difficulty,
-          });
+          let _contents = content.concat({ id: newId, title: _title, desc: _desc, level: _level });
           setContent(_contents);
           // setMaxid(newId);
           setId(newId);
@@ -103,8 +98,8 @@ function App() {
       <UpdateArticle
         title={selectedArticle.title}
         desc={selectedArticle.desc}
-        difficulty={selectedArticle.difficulty}
-        onSubmit={(_title, _desc, _difficulty) => {
+        level={selectedArticle.level}
+        onSubmit={(_title, _desc, _level) => {
           setContent(prev =>
             prev.map(p =>
               p.id === id
@@ -112,7 +107,7 @@ function App() {
                     ...p,
                     title: _title,
                     desc: _desc,
-                    difficulty: _difficulty,
+                    level: _level,
                   }
                 : p,
             ),
